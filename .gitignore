@@ -1,0 +1,6 @@
+*.pyc
+pantheon-modified/tmp/*
+pantheon-modified/src/experiments/data/*
+pantheon-modified/src/experiments/basetime
+pantheon-modified/third_party/tcpdatagen/dataset/*
+pantheon-modified/third_party/tcpdatagen/bin/*
