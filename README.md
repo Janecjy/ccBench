@@ -59,7 +59,27 @@ If everything goes well, we should have Mahimahi patches installed. Make sure th
 Now, we install Pantheon-modified. 
 ```bash
 cd ~/ccBench/pantheon-modified/tools/
+chmod +x install_deps.sh
 ./install_deps.sh
+
+cd ../third_party/pantheon-tunnel/
+chmod +x autogen.sh
+
+cd ~/ccBench/pantheon-modified/
+chmod +x src/experiments/setup.py
+src/experiments/setup.py --install-deps --all
+chmod +x tools/install_deps.sh
+tools/install_deps.sh
+
+cd ~/ccBench/pantheon-modified/src/experiments/
+chmod +x *.sh
+
+cd ../wrappers/
+chmod +x *.py
+
+cd ../../third_party/tcpdatagen/
+chmod +x *.sh
+./build.sh
 ```
 
 ## Installing Different CC Schemes

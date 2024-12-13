@@ -7,14 +7,14 @@ schemes:
     name: GEN
     color: red
     marker: '*'
-  genet:
-    name: Genet
-    color: red
-    marker: '-'
-  aurora:
-    name: Aurora
-    color: brown
-    marker: '8'
+  # genet:
+  #   name: Genet
+  #   color: red
+  #   marker: '-'
+  # aurora:
+  #   name: Aurora
+  #   color: brown
+  #   marker: '8'
   cubic:
     name: TCP Cubic
     color: black
