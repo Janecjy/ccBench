@@ -73,6 +73,7 @@ tools/install_deps.sh
 
 cd ~/ccBench/pantheon-modified/src/experiments/
 chmod +x *.sh
+chmod +x *.py
 
 cd ../wrappers/
 chmod +x *.py
@@ -102,6 +103,7 @@ The process is quite simple. For instance, the following will start the ccBench1
 ```bash
 cd ~/ccBench/pantheon-modified/src/experiments/
 chmod +x solo_runall.sh
+chmod +x ../analysis/*.py
 ./solo_runall.sh
 ```
 
