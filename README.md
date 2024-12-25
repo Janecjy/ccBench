@@ -28,10 +28,13 @@ To prepare for the benchmarking process, we need to bring up at least three thin
 Begin by cloning the repository:
 
 ```bash
+sudo apt update
 cd ~
-git clone https://github.com/Soheil-ab/ccBench.git
+git clone git@github.com:Janecjy/ccBench.git
 cd ccBench
+git checkout cloudlab-test
 git submodule update --init --recursive
+git config core.fileMode false
 ```
 
 ## Installing Mahimahi's Patches
@@ -58,27 +61,25 @@ If everything goes well, we should have Mahimahi patches installed. Make sure th
 ## Installing Pantheon-Modified
 Now, we install Pantheon-modified. 
 ```bash
+cd ~/ccBench/pantheon-modified/third_party/pantheon-tunnel/
+chmod +x autogen.sh
 cd ~/ccBench/pantheon-modified/tools/
 chmod +x install_deps.sh
 ./install_deps.sh
 
-cd ../third_party/pantheon-tunnel/
-chmod +x autogen.sh
-
 cd ~/ccBench/pantheon-modified/
 chmod +x src/experiments/setup.py
+cd src/wrappers/
+chmod +x *.py
+
+cd ~/ccBench/pantheon-modified/
 src/experiments/setup.py --install-deps --all
-chmod +x tools/install_deps.sh
-tools/install_deps.sh
 
 cd ~/ccBench/pantheon-modified/src/experiments/
 chmod +x *.sh
 chmod +x *.py
 
-cd ../wrappers/
-chmod +x *.py
-
-cd ../../third_party/tcpdatagen/
+cd ~/ccBench/pantheon-modified/third_party/tcpdatagen/
 chmod +x *.sh
 ./build.sh
 ```
