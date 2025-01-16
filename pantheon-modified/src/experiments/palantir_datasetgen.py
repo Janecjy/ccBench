@@ -26,7 +26,7 @@ def build_dataset_from_traces(trace_dir: str, save_path: str = "/mydata/ccbench-
     for fname in os.listdir(trace_dir):
         if not fname.endswith(".txt"):
             continue  # Skip non-text files
-
+        print(f"Processing file: {fname}")
         one_way_delay = parse_one_way_delay(fname)    # e.g., 80.0
         two_owd = 2.0 * one_way_delay                 # e.g., 160.0
 
@@ -34,28 +34,33 @@ def build_dataset_from_traces(trace_dir: str, save_path: str = "/mydata/ccbench-
         with open(filepath, "r") as f:
             lines = f.readlines()
 
-        # Process in chunks of 10 lines
         for i in range(0, len(lines), 10):
-            chunk = lines[i:i+10]
-            if len(chunk) < 10:
-                # Skip incomplete chunk
+            chunk_lines = lines[i : i+10]
+
+            # Skip incomplete chunk
+            if len(chunk_lines) < 10:
                 break
 
-            # Each chunk -> shape (10,6)
+            # Temporary structure
             chunk_data = []
-            for line in chunk:
+            valid_chunk = True  # We'll mark this False if any line fails
+
+            for line in chunk_lines:
                 cols = line.split()
+                if len(cols) < 77:
+                    # This chunk is invalid; skip entire chunk
+                    valid_chunk = False
+                    break
 
-                # Extract columns (1-based indexing -> 0-based in Python)
-                col3   = float(cols[2])   # "column 3"
-                col4   = float(cols[3])   # "column 4"
-                col8   = float(cols[7])   # "column 8"
-                col68  = float(cols[67])  # "column 68"
-                col77  = float(cols[76])  # "column 77"
+                # Extract your columns
+                col3   = float(cols[2])
+                col4   = float(cols[3])
+                col8   = float(cols[7])
+                col68  = float(cols[67])
+                col77  = float(cols[76])
 
-                # Build the 6-element vector for this line
                 row_vector = [
-                    two_owd/100,   # 2 × one-way delay
+                    two_owd/100,  # 2×OWD in your preferred units
                     col3,
                     col4,
                     col8,
@@ -64,8 +69,9 @@ def build_dataset_from_traces(trace_dir: str, save_path: str = "/mydata/ccbench-
                 ]
                 chunk_data.append(row_vector)
 
-            # Append one (10,6) chunk
-            data_list.append(chunk_data)
+            # Only append if the chunk is valid and has exactly 10 rows
+            if valid_chunk and len(chunk_data) == 10:
+                data_list.append(chunk_data)
 
     # Convert to NumPy array: shape (num_chunks, 10, 6)
     dataset = np.array(data_list, dtype=np.float32)
